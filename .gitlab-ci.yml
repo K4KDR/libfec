@@ -1,0 +1,29 @@
+stages:
+    - Compile
+
+variables:
+    IMAGE_PREFIX: "gitlab.lrz.de:5005/sdr/docker-images/"
+
+.tmpl_build: &tmpl_build
+    tags: [build]
+    dependencies: []
+    stage: Compile
+    script:
+        - ./configure --prefix=/usr/local
+        - make
+        - make install
+
+
+########################################################################################################################
+#####
+#####  Stage: Compile
+#####
+########################################################################################################################
+
+Compile Clang:
+    <<: *tmpl_build
+    image: "${IMAGE_PREFIX}ubuntu-clang"
+
+Compile GCC:
+    <<: *tmpl_build
+    image: "${IMAGE_PREFIX}ubuntu-gcc"
