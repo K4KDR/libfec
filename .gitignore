@@ -1,0 +1,11 @@
+*.o
+*.a
+*.so
+config.log
+config.h
+config.status
+gen_ccsds
+gen_ccsds_tal
+makefile
+ccsds_tab.c
+ccsds_tal.c
