@@ -4,7 +4,16 @@ stages:
 variables:
     IMAGE_PREFIX: "gitlab.lrz.de:5005/sdr/docker-images/"
 
-.tmpl_build: &tmpl_build
+.tmpl_build_autotools: &tmpl_build_autotools
+    tags: [build]
+    dependencies: []
+    stage: Compile
+    script:
+        - ./configure --prefix=/usr/local
+        - make
+        - make install
+
+.tmpl_build_cmake: &tmpl_build_cmake
     tags: [build]
     dependencies: []
     stage: Compile
@@ -20,10 +29,18 @@ variables:
 #####
 ########################################################################################################################
 
-Compile Clang:
-    <<: *tmpl_build
-    image: "${IMAGE_PREFIX}ubuntu-clang"
+Autotools + Clang:
+    <<: *tmpl_build_autotools
+    image: "${IMAGE_PREFIX}alpine-clang"
 
-Compile GCC:
-    <<: *tmpl_build
-    image: "${IMAGE_PREFIX}ubuntu-gcc"
+Autotools + GCC:
+    <<: *tmpl_build_autotools
+    image: "${IMAGE_PREFIX}alpine-gcc"
+
+CMake + Clang:
+    <<: *tmpl_build_cmake
+    image: "${IMAGE_PREFIX}alpine-gcc"
+
+CMake + GCC:
+    <<: *tmpl_build_cmake
+    image: "${IMAGE_PREFIX}alpine-gcc"
