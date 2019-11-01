@@ -66,3 +66,5 @@ install(
         ${CMAKE_CURRENT_SOURCE_DIR}/dsp.3
     DESTINATION man/man3
 )
+
+add_library(ka9q::fec ALIAS fec)
