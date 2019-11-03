@@ -56,7 +56,11 @@ set(LIBFEC_SOURCES
 )
 
 add_library(fec SHARED ${LIBFEC_SOURCES})
-target_link_libraries(fec m)
+target_link_libraries(fec PUBLIC m)
+
+# Explicitly mark all symbols to be exported
+set_property(TARGET fec PROPERTY C_VISIBILITY_PRESET default)
+set_property(TARGET fec PROPERTY VISIBILITY_INLINES_HIDDEN 1)
 
 target_include_directories(fec
     PUBLIC
