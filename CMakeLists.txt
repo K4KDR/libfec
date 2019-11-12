@@ -1,10 +1,9 @@
 cmake_minimum_required(VERSION 3.0)
 
 project(fec
-    LANGUAGES C
     VERSION 3.0.1
     DESCRIPTION "fec library from Phil Karn, slightly modified to be build on modern x64 pcs."
-    HOMEPAGE_URL "http://www.ka9q.net/code/fec/"
+    LANGUAGES C
 )
 
 add_executable(gen_ccsds gen_ccsds.c init_rs_char.c)
@@ -115,7 +114,7 @@ install(EXPORT fecTargets
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file("fecConfigVersion.cmake"
     VERSION ${fec_VERSION}
-    COMPATIBILITY SameMinorVersion
+    COMPATIBILITY SameMajorVersion
 )
 
 install(
