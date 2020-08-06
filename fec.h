@@ -6,6 +6,8 @@
 #ifndef _FEC_H_
 #define _FEC_H_
 
+#pragma GCC diagnostic ignored "-Wconversion"
+
 #ifdef __cplusplus
 extern "C"
 {
