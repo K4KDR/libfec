@@ -7,6 +7,11 @@ project(fec
 )
 
 add_executable(gen_ccsds gen_ccsds.c init_rs_char.c)
+target_include_directories(gen_ccsds
+    PRIVATE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+)
 add_custom_command(
     OUTPUT ccsds_tab.c
     DEPENDS gen_ccsds
@@ -59,17 +64,23 @@ target_link_libraries(fec PUBLIC m)
 
 # Explicitly mark all symbols to be exported
 set_property(TARGET fec PROPERTY C_VISIBILITY_PRESET default)
-set_property(TARGET fec PROPERTY VISIBILITY_INLINES_HIDDEN 1)
+set_property(TARGET fec PROPERTY CXX_VISIBILITY_PRESET default)
+set_property(TARGET fec PROPERTY VISIBILITY_INLINES_HIDDEN 0)
+
+include(GenerateExportHeader)
+generate_export_header(fec BASE_NAME fec)
 
 target_include_directories(fec
     PUBLIC
         $<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
 )
 
 install(
     FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/fec.h
+        ${PROJECT_BINARY_DIR}/fec_export.h
     DESTINATION include
 )
 
